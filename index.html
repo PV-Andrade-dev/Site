@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz do Encontro 💜</title>
+  <style>
+    body {
+      background: #231942; /* Roxo escuro */
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 6px 32px #0002;
+      padding: 30px 22px 24px 22px;
+      max-width: 340px;
+      width: 95vw;
+      text-align: center;
+      margin: 12px;
+      animation: fadeIn 0.6s;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(25px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    h1, h2 {
+      color: #5f32a8;
+      margin: 0 0 18px 0;
+    }
+    .emoji {
+      font-size: 2.1rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    button, .quiz-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 13px 0;
+      font-size: 1.08rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: linear-gradient(90deg, #8854d0 70%, #a66cff 100%);
+      color: #fff;
+      margin-top: 10px;
+      width: 100%;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px #5f32a820;
+      transition: background 0.18s, transform 0.11s;
+    }
+    button:hover, .quiz-btn:hover {
+      background: linear-gradient(90deg, #5f32a8 60%, #231942 100%);
+      transform: scale(1.03);
+    }
+    .input-box {
+      width: 94%;
+      padding: 10px 12px;
+      margin: 8px 0 16px 0;
+      border-radius: 10px;
+      border: 2px solid #c2b2fa;
+      font-size: 1.04rem;
+      outline: none;
+      background: #f6f1ff;
+      color: #531d87;
+      box-sizing: border-box;
+    }
+    .resumo {
+      text-align: left;
+      background: #f6f1ff;
+      color: #4c3376;
+      border-radius: 15px;
+      padding: 16px 13px;
+      margin: 20px 0 18px 0;
+      font-size: 1.08rem;
+      line-height: 1.45;
+      word-break: break-word;
+      box-shadow: 0 2px 8px #a66cff30;
+      font-family: 'Fira Mono', monospace, Arial, sans-serif;
+    }
+    .refazer-btn {
+      margin-top: 12px;
+      background: #fff;
+      color: #8854d0;
+      border: 2px solid #8854d0;
+      font-weight: bold;
+      transition: background 0.15s, color 0.15s;
+    }
+    .refazer-btn:hover {
+      background: #a66cff;
+      color: #fff;
+    }
+    .hide { display: none; }
+    @media (max-width: 430px) {
+      .card { padding: 14px 4vw 16px 4vw; font-size: 1rem;}
+      h1 { font-size: 1.14rem;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Tela 1 -->
+  <div class="card" id="tela1">
+    <span class="emoji">👋</span>
+    <h1>Olá Jojo!</h1>
+    <p>Seja bem-vinda ao meu site.<br><br>Vamos começar?</p>
+    <button onclick="proximaTela(2)">Iniciar</button>
+  </div>
+
+  <!-- Tela 2 -->
+  <div class="card hide" id="tela2">
+    <span class="emoji">📍</span>
+    <h2>Para onde vamos?</h2>
+    <button class="quiz-btn" onclick="salvarLugar('Sua casa 🏠')">Sua casa 🏠</button>
+    <button class="quiz-btn" onclick="salvarLugar('Minha casa 🏠')">Minha casa 🏠</button>
+    <button class="quiz-btn" onclick="salvarLugar('Praça do Vila ⛲️')">Praça do Vila ⛲️</button>
+    <button class="quiz-btn" onclick="salvarLugar('Shopping 🛍️')">Shopping 🛍️</button>
+    <button class="quiz-btn" onclick="salvarLugar('Decide! bocó 🫶')">Decide! bocó 🫶</button>
+  </div>
+
+  <!-- Tela 3 -->
+  <div class="card hide" id="tela3">
+    <span class="emoji">🍽️</span>
+    <h2>O que quer comer?</h2>
+    <div id="opcoesComida"></div>
+  </div>
+
+  <!-- Tela 4 -->
+  <div class="card hide" id="tela4">
+    <span class="emoji">🗓️</span>
+    <h2>Agora o dia:</h2>
+    <button class="quiz-btn" onclick="salvarDia('Decida! já escolhi demais')">Decida! já escolhi demais</button>
+    <div style="margin:10px 0;">ou</div>
+    <input class="input-box" id="inputDia" type="text" placeholder="Eu escolho.">
+    <button onclick="pegarDiaEscrito()">Eu escolho</button>
+  </div>
+
+  <!-- Tela 5 -->
+  <div class="card hide" id="tela5">
+    <span class="emoji">👩‍❤️‍💋‍👨</span>
+    <h2>Beijinhos?</h2>
+    <button class="quiz-btn" onclick="salvarBeijo('Claro 😏')">Claro 😏</button>
+    <button class="quiz-btn" onclick="salvarBeijo('Óbvio 🙄')">Óbvio 🙄</button>
+  </div>
+
+  <!-- Tela 6 (Resumo) -->
+  <div class="card hide" id="tela6">
+    <span class="emoji">📝</span>
+    <h2>Pedido final</h2>
+    <div class="resumo" id="resumoPedido"></div>
+    <p style="margin-top: 10px;">Tira um print do pedido e me envia!<br>Ou se quiser, pode refazer 😁</p>
+    <button class="refazer-btn" onclick="refazerQuiz()">Refazer Quiz</button>
+  </div>
+
+  <script>
+    // Armazena as escolhas da Jojo
+    let quiz = {
+      lugar: '',
+      comida: '',
+      comidaDigitada: '',
+      dia: '',
+      beijo: ''
+    };
+
+    // Função para avançar telas simples
+    function proximaTela(num) {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById('tela'+i).classList.add('hide');
+      }
+      document.getElementById('tela'+num).classList.remove('hide');
+    }
+
+    // Tela 2 -> Tela 3
+    function salvarLugar(lugar) {
+      quiz.lugar = lugar;
+      // Dependendo da escolha, mostrar opcoes diferentes na tela 3
+      let html = '';
+      if (lugar === 'Sua casa 🏠') {
+        html += `<button class="quiz-btn" onclick="salvarComida('A seu critério')">A seu critério</button><br>`;
+        html += `<input class="input-box" id="inputComida" placeholder="Digite aqui o que deseja"><br>`;
+        html += `<button onclick="pegarComidaEscrita('sua')">Enviar</button>`;
+      } else if (lugar === 'Minha casa 🏠') {
+        html += `<button class="quiz-btn" onclick="salvarComida('Xuxi 🍱')">Xuxi 🍱</button><br>`;
+        html += `<input class="input-box" id="inputComida" placeholder="Digite aqui o que deseja"><br>`;
+        html += `<button onclick="pegarComidaEscrita('minha')">Enviar</button>`;
+      } else if (lugar === 'Praça do Vila ⛲️') {
+        html += `<button class="quiz-btn" onclick="salvarComida('Xuxi + Pó de guarana')">Xuxi + Pó de guarana</button><br>`;
+        html += `<button class="quiz-btn" onclick="salvarComida('Macarronada 🍝')">Macarronada 🍝</button>`;
+      } else if (lugar === 'Shopping 🛍️' || lugar === 'Decide! bocó 🫶') {
+        proximaTela(4); // pula comida
+        return;
+      }
+      document.getElementById('opcoesComida').innerHTML = html;
+      proximaTela(3);
+    }
+
+    // Tela 3: salvar comida digitada
+    function pegarComidaEscrita(tipo) {
+      const valor = document.getElementById('inputComida').value.trim();
+      if (!valor) {
+        alert('Digite o que deseja comer!');
+        return;
+      }
+      quiz.comida = valor;
+      quiz.comidaDigitada = 'sim';
+      proximaTela(4);
+    }
+
+    // Tela 3: salvar comida escolhida botão
+    function salvarComida(opcao) {
+      quiz.comida = opcao;
+      quiz.comidaDigitada = '';
+      proximaTela(4);
+    }
+
+    // Tela 4: pegar dia digitado ou opção direta
+    function pegarDiaEscrito() {
+      const valor = document.getElementById('inputDia').value.trim();
+      if (!valor) {
+        alert('Digite o dia!');
+        return;
+      }
+      quiz.dia = valor;
+      proximaTela(5);
+    }
+
+    function salvarDia(dia) {
+      quiz.dia = dia;
+      proximaTela(5);
+    }
+
+    // Tela 5: salvar beijinho
+    function salvarBeijo(beijo) {
+      quiz.beijo = beijo;
+      mostrarResumo();
+      proximaTela(6);
+    }
+
+    // Tela 6: monta resumo fofo
+    function mostrarResumo() {
+      let resumo = '';
+      resumo += `📍 Para onde vamos: <b>${quiz.lugar}</b><br>`;
+      if (quiz.lugar !== 'Shopping 🛍️' && quiz.lugar !== 'Decide! bocó 🫶') {
+        resumo += `🍽️ O que quer comer: <b>${quiz.comida}</b><br>`;
+      }
+      resumo += `🗓️ Dia: <b>${quiz.dia}</b><br>`;
+      resumo += `👩‍❤️‍💋‍👨 Beijinhos: <b>${quiz.beijo}</b><br>`;
+      document.getElementById('resumoPedido').innerHTML = resumo;
+    }
+
+    // Refazer tudo
+    function refazerQuiz() {
+      quiz = { lugar: '', comida: '', comidaDigitada: '', dia: '', beijo: '' };
+      document.getElementById('inputDia').value = '';
+      proximaTela(1);
+    }
+  </script>
+</body>
+</html>
