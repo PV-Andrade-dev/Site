@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quiz do Encontro 💜</title>
+  <title>Site da escolha</title>
   <style>
     body {
-      background: #231942; /* Roxo escuro */
+      background: #231942;
       min-height: 100vh;
       margin: 0;
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -106,7 +106,7 @@
   <div class="card" id="tela1">
     <span class="emoji">👋</span>
     <h1>Olá Jojo!</h1>
-    <p>Seja bem-vinda ao meu site.<br><br>Vamos começar?</p>
+    <p>Seja bem vinda ao site para decidirmos aonde vamos.<br><br>Clique aqui e seja feliz ⬇️</p>
     <button onclick="proximaTela(2)">Iniciar</button>
   </div>
 
@@ -156,7 +156,7 @@
   </div>
 
   <script>
-    // Armazena as escolhas da Jojo
+    // Armazena as escolhas
     let quiz = {
       lugar: '',
       comida: '',
@@ -232,14 +232,14 @@
       proximaTela(5);
     }
 
-    // Tela 5: salvar beijinho
+    // Tela 5: salvar
     function salvarBeijo(beijo) {
       quiz.beijo = beijo;
       mostrarResumo();
       proximaTela(6);
     }
 
-    // Tela 6: monta resumo fofo
+    // Tela 6: monta resumo
     function mostrarResumo() {
       let resumo = '';
       resumo += `📍 Para onde vamos: <b>${quiz.lugar}</b><br>`;
